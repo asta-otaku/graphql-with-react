@@ -6,6 +6,8 @@ const LAUNCH_QUERY = gql`
   query LaunchQuery($id: String!) {
     launch(id: $id) {
       flight_number
+      success
+      date_local
       name
       id
       cores {
@@ -21,14 +23,18 @@ function Launch() {
     variables: { id },
   });
 
-  useEffect(() => {
-    console.log(id, "laucnh id");
-  }, []);
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  return <h1>Test</h1>;
+  const { name, flight_number, success, date_local } = data.launch;
+
+  return (
+    <div>
+      <h1 className="display-4 my-3">
+        <span className="text-dark">Mission:</span> {name}
+      </h1>
+    </div>
+  );
 }
 
 export default Launch;
